@@ -95,22 +95,22 @@ class Config:
             self.VERSIONS_COLLECTION_NAME = ''
 
             # Collection Names
-{% for dictionary in dictionaries -%}
-{{ '            ' -}}
-self.{{ dictionary.name | upper }}_COLLECTION_NAME = ''
-{% endfor %}
+            self.IDENTITY_COLLECTION_NAME = ''
+            self.PROFILE_COLLECTION_NAME = ''
+            self.CONTROL_COLLECTION_NAME = ''
+            self.CREATE_COLLECTION_NAME = ''
+            self.CONSUME_COLLECTION_NAME = ''
+
             # Service Port numbers
-{% for domain in architecture.domains -%}
-{% for repo in domain.repos -%}
-{% if repo.type == 'api' -%}
-{{ '            ' -}}
-self.{{ domain.name | upper }}_API_PORT = 0
-{% elif repo.type == 'spa' or repo.type == 'spa_ref' -%}
-{{ '            ' -}}
-self.{{ domain.name | upper }}_SPA_PORT = 0
-{% endif -%}
-{% endfor -%}
-{% endfor %}
+            self.RUNBOOK_API_PORT = 0
+            self.RUNBOOK_SPA_PORT = 0
+            self.SCHEMA_API_PORT = 0
+            self.SCHEMA_SPA_PORT = 0
+            self.COMMON_CODE_API_PORT = 0
+            self.COMMON_CODE_SPA_PORT = 0
+            self.SAMPLE_API_PORT = 0
+            self.SAMPLE_SPA_PORT = 0
+
 
             # Default Values grouped by value type            
             self.config_strings = {
@@ -119,7 +119,7 @@ self.{{ domain.name | upper }}_SPA_PORT = 0
                 "INPUT_FOLDER": "/input",
                 "OUTPUT_FOLDER": "/output",
                 "LOGGING_LEVEL": "INFO", 
-                "MONGO_DB_NAME": "{{info.db_name}}",
+                "MONGO_DB_NAME": "mentor_hub",
                 
                 # JWT Configuration
                 "JWT_ALGORITHM": "HS256",
@@ -131,28 +131,26 @@ self.{{ domain.name | upper }}_SPA_PORT = 0
                 "VERSIONS_COLLECTION_NAME": "CollectionVersions",
                 
                 # Collection Names
-{% for dictionary in dictionaries -%}
-{{ '                ' -}}
-"{{ dictionary.name | upper }}_COLLECTION_NAME": "{{ dictionary.name }}",
-{% endfor -%}                
-{{ '            ' -}}
-}
+                "IDENTITY_COLLECTION_NAME": "Identity",
+                "PROFILE_COLLECTION_NAME": "Profile",
+                "CONTROL_COLLECTION_NAME": "Control",
+                "CREATE_COLLECTION_NAME": "Create",
+                "CONSUME_COLLECTION_NAME": "Consume",
+            }
             self.config_ints = {
                 # JWT Configuration
                 "JWT_TTL_MINUTES": "480",
 
                 # Service Port numbers 
-{% for domain in architecture.domains -%}
-{% for repo in domain.repos -%}
-{% if repo.type == 'api' -%}
-{{ '                ' -}}
-"{{ domain.name | upper }}_API_PORT": {{ repo.port }},
-{% elif repo.type == 'spa' or repo.type == 'spa_ref' -%}
-{{ '                ' -}}
-"{{ domain.name | upper }}_SPA_PORT": {{ repo.port }},
-{% endif -%}
-{% endfor -%}
-{% endfor %}                
+                "RUNBOOK_API_PORT": 8383,
+                "RUNBOOK_SPA_PORT": 8384,
+                "SCHEMA_API_PORT": 8385,
+                "SCHEMA_SPA_PORT": 8386,
+                "COMMON_CODE_API_PORT": 8387,
+                "COMMON_CODE_SPA_PORT": 8388,
+                "SAMPLE_API_PORT": 8389,
+                "SAMPLE_SPA_PORT": 8390,
+                
             }
 
             self.config_booleans = {
@@ -393,4 +391,3 @@ self.{{ domain.name | upper }}_SPA_PORT = 0
             
         # logger.log("Config Initializing")
         return Config._instance
-
